@@ -1,20 +1,41 @@
-# 🚀 Secure Todo App with PostgreSQL & Clerk Authentication
+# 🚀 Project Todo Manager with PostgreSQL & Clerk Authentication
 
-A production-ready full-stack todo application built with React (TypeScript), Express.js, PostgreSQL, Prisma ORM, and Clerk authentication.
+A production-ready full-stack project management application built with React (TypeScript), Express.js, PostgreSQL, Prisma ORM, and Clerk authentication. Organize your todos into projects with custom colors and track progress efficiently.
 
 ## ✨ Features
 
-- 🔐 **Secure Authentication** with Clerk (email, social logins, passwordless)
-- 👤 **User-specific Todos** - Each user sees only their own todos
-- 🗄️ **PostgreSQL Database** with Prisma ORM for robust data persistence
-- 🛡️ **JWT Token Verification** on the backend for secure API access
-- ✅ **Full CRUD Operations** (Create, Read, Update, Delete)
-- 📊 **Real-time Statistics** and progress tracking
-- 🎨 **Modern Glassmorphism UI** with responsive design
-- ⚡ **Optimistic Updates** for smooth user experience
-- 🔄 **Automatic User Creation** on first login
-- 📱 **Mobile-friendly** responsive design
-- 🚀 **Production-ready** architecture
+### 🔐 **Authentication & Security**
+- **Secure Authentication** with Clerk (email, social logins, passwordless)
+- **JWT Token Verification** on the backend for secure API access
+- **User-specific Data** - Each user sees only their own projects and todos
+- **Session Management** with automatic token refresh
+
+### 📁 **Project Management**
+- **Create Projects** with custom names, descriptions, and colors
+- **Project Organization** - Group related todos together
+- **Visual Project Selection** with color-coded indicators
+- **Project Statistics** - View todo count and completion progress
+- **Project Deletion** with confirmation and cascade delete of todos
+
+### ✅ **Todo Management**
+- **Project-specific Todos** - Add todos to specific projects
+- **Cross-project View** - See all todos across projects
+- **Full CRUD Operations** (Create, Read, Update, Delete)
+- **Real-time Statistics** and progress tracking
+- **Optimistic Updates** for smooth user experience
+
+### 🎨 **User Interface**
+- **Modern Glassmorphism UI** with gradient backgrounds
+- **Responsive Design** - Works perfectly on desktop and mobile
+- **Color-coded Projects** for easy visual identification
+- **Intuitive Project Switching** and management
+- **Real-time Progress Tracking** per project
+
+### 🗄️ **Database & Performance**
+- **PostgreSQL Database** with Prisma ORM for robust data persistence
+- **Efficient Relationships** between users, projects, and todos
+- **Database Migrations** for schema management
+- **Connection Pooling** and optimization
 
 ## 🛠 Tech Stack
 
@@ -35,7 +56,8 @@ A production-ready full-stack todo application built with React (TypeScript), Ex
 **Database:**
 - PostgreSQL with proper relationships
 - User table linked to Clerk authentication
-- Todo table with user associations
+- Project table with user associations
+- Todo table with user and project relationships
 - Prisma migrations for schema management
 
 **Authentication & Security:**
@@ -55,7 +77,14 @@ A production-ready full-stack todo application built with React (TypeScript), Ex
 
 ### 📦 Installation
 
-#### 1. Clone and Install Dependencies
+#### 1. Clone the Repository
+
+```bash
+git clone https://github.com/albertcolmenero/simplereactexpressapp.git
+cd simplereactexpressapp
+```
+
+#### 2. Install Dependencies
 
 ```bash
 # Install root dependencies
@@ -65,7 +94,7 @@ npm install
 npm run install-all
 ```
 
-#### 2. Set up PostgreSQL Database
+#### 3. Set up PostgreSQL Database
 
 You can use a local PostgreSQL installation or a cloud service like:
 - [Neon](https://neon.tech) (recommended for development)
@@ -73,17 +102,33 @@ You can use a local PostgreSQL installation or a cloud service like:
 - [Railway](https://railway.app)
 - [Heroku Postgres](https://elements.heroku.com/addons/heroku-postgresql)
 
-#### 3. Configure Database Connection
+#### 4. Configure Backend Environment
 
-1. **Update `backend/.env`** with your PostgreSQL connection string:
+Create `backend/.env` file:
 
 ```env
-DATABASE_URL="postgresql://username:password@localhost:5432/your_database_name?schema=public"
+# PostgreSQL Database URL
+# Replace with your actual database connection string
+DATABASE_URL="postgresql://username:password@host:port/database?sslmode=require"
+
+# Clerk JWT Key (Secret Key)
+# Get this from your Clerk Dashboard: https://dashboard.clerk.com -> API Keys
+# This should start with sk_test_ or sk_live_
+CLERK_JWT_KEY="sk_test_your_clerk_secret_key_here"
 ```
 
-Replace with your actual database credentials.
+#### 5. Configure Frontend Environment
 
-#### 4. Set up Clerk Authentication
+Create `frontend/.env` file:
+
+```env
+# Clerk Publishable Key
+# Get this from your Clerk Dashboard: https://dashboard.clerk.com -> API Keys
+# This should start with pk_test_ or pk_live_
+REACT_APP_CLERK_PUBLISHABLE_KEY="pk_test_your_clerk_publishable_key_here"
+```
+
+#### 6. Set up Clerk Authentication
 
 1. **Create a Clerk Application:**
    - Go to [dashboard.clerk.com](https://dashboard.clerk.com)
@@ -93,20 +138,9 @@ Replace with your actual database credentials.
 2. **Get your API Keys:**
    - In the Clerk Dashboard, go to "API Keys"
    - Copy your **Publishable Key** and **Secret Key**
+   - Add them to the respective `.env` files
 
-3. **Configure Environment Variables:**
-
-   **Frontend (`frontend/.env`):**
-   ```env
-   REACT_APP_CLERK_PUBLISHABLE_KEY=pk_test_your_actual_publishable_key_here
-   ```
-
-   **Backend (`backend/.env`):**
-   ```env
-   CLERK_SECRET_KEY=sk_test_your_actual_secret_key_here
-   ```
-
-#### 5. Set up Database Schema
+#### 7. Set up Database Schema
 
 ```bash
 # Navigate to backend directory
@@ -117,9 +151,6 @@ npx prisma db push
 
 # Generate Prisma client
 npx prisma generate
-
-# (Optional) Seed some data
-npx prisma db seed
 ```
 
 ### 🚀 Running the Application
@@ -156,16 +187,24 @@ npm run client
    - Choose your preferred authentication method
    - Complete the registration process
 
-3. **Managing Todos:**
-   - Add new todos with the input field
+3. **Managing Projects:**
+   - Click "+ New Project" to create a project
+   - Choose a name, description, and color for your project
+   - Click on projects to switch between them
+   - Use the delete button (🗑️) to remove projects
+
+4. **Managing Todos:**
+   - Select a project or use "All Todos" view
+   - Add todos using the input field
    - Click on todo text (or emoji) to toggle completion
    - Use the delete button to remove todos
-   - View your progress with real-time statistics
+   - View progress with real-time statistics
 
-4. **User Account:**
-   - Click your profile picture to access account settings
-   - Update profile, change authentication methods, or sign out
-   - Your todos are private and linked to your account
+5. **Project Organization:**
+   - Create different projects for different areas of your life
+   - Use colors to visually organize your projects
+   - Track completion progress for each project
+   - Switch between projects seamlessly
 
 ## 🗄️ Database Schema
 
@@ -182,12 +221,24 @@ CREATE TABLE users (
   updatedAt   TIMESTAMP DEFAULT NOW()
 );
 
--- Todos table (user-specific)
+-- Projects table
+CREATE TABLE projects (
+  id          TEXT PRIMARY KEY,
+  name        TEXT NOT NULL,
+  description TEXT,
+  color       TEXT,
+  userId      TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  createdAt   TIMESTAMP DEFAULT NOW(),
+  updatedAt   TIMESTAMP DEFAULT NOW()
+);
+
+-- Todos table (user and project relationships)
 CREATE TABLE todos (
   id          TEXT PRIMARY KEY,
   text        TEXT NOT NULL,
   completed   BOOLEAN DEFAULT FALSE,
   userId      TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  projectId   TEXT REFERENCES projects(id) ON DELETE CASCADE,
   createdAt   TIMESTAMP DEFAULT NOW(),
   updatedAt   TIMESTAMP DEFAULT NOW()
 );
@@ -195,35 +246,42 @@ CREATE TABLE todos (
 
 ## 🔧 API Endpoints
 
-All API endpoints require authentication via Clerk JWT tokens.
+All API endpoints require authentication via Clerk JWT tokens except health check.
 
+### **Project Endpoints**
 | Method | Endpoint | Description | Auth Required |
 |--------|----------|-------------|---------------|
-| GET | `/` | API info | ❌ |
-| GET | `/api/health` | Health check | ❌ |
-| GET | `/api/todos` | Get user's todos | ✅ |
+| GET | `/api/projects` | Get user's projects | ✅ |
+| GET | `/api/projects/:id` | Get specific project with todos | ✅ |
+| POST | `/api/projects` | Create new project | ✅ |
+| PUT | `/api/projects/:id` | Update project | ✅ |
+| DELETE | `/api/projects/:id` | Delete project | ✅ |
+| GET | `/api/projects/:id/todos` | Get todos for specific project | ✅ |
+| POST | `/api/projects/:id/todos` | Create todo in specific project | ✅ |
+
+### **Todo Endpoints**
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| GET | `/api/todos` | Get user's todos (all projects) | ✅ |
 | GET | `/api/todos/:id` | Get specific todo | ✅ |
-| POST | `/api/todos` | Create new todo | ✅ |
+| POST | `/api/todos` | Create new todo (general) | ✅ |
 | PUT | `/api/todos/:id` | Update todo | ✅ |
 | DELETE | `/api/todos/:id` | Delete todo | ✅ |
 
-### Example API Usage
-
-```javascript
-// Frontend automatically includes JWT token in requests
-const response = await authenticatedApi.post('/api/todos', {
-  text: 'Learn Prisma ORM'
-});
-```
+### **System Endpoints**
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| GET | `/` | API info | ❌ |
+| GET | `/api/health` | Health check with database status | ❌ |
 
 ## 📁 Project Structure
 
 ```
-simple-react-express-app/
+simplereactexpressapp/
 ├── frontend/
 │   ├── src/
-│   │   ├── App.tsx              # Main component with auth
-│   │   ├── App.css              # Enhanced styles
+│   │   ├── App.tsx              # Main component with project management
+│   │   ├── App.css              # Enhanced styles with project UI
 │   │   ├── index.tsx            # Entry point with ClerkProvider
 │   │   └── ...
 │   ├── .env                     # Clerk publishable key
@@ -231,8 +289,8 @@ simple-react-express-app/
 │   └── ...
 ├── backend/
 │   ├── prisma/
-│   │   └── schema.prisma        # Database schema
-│   ├── server.js                # Express server with auth
+│   │   └── schema.prisma        # Database schema with projects
+│   ├── server.js                # Express server with project routes
 │   ├── .env                     # Database URL & Clerk secret
 │   ├── package.json
 │   └── ...
@@ -247,7 +305,7 @@ simple-react-express-app/
 3. **All API requests** include the JWT token in Authorization header
 4. **Backend verifies token** using Clerk's Node SDK
 5. **User is created/retrieved** from PostgreSQL database
-6. **API response** includes only user-specific data
+6. **API response** includes only user-specific data (projects and todos)
 
 ## 🛠 Development
 
@@ -277,7 +335,7 @@ REACT_APP_CLERK_PUBLISHABLE_KEY=pk_test_...
 **Backend `.env**:
 ```env
 DATABASE_URL="postgresql://..."
-CLERK_SECRET_KEY=sk_test_...
+CLERK_JWT_KEY=sk_test_...
 ```
 
 ## 🚀 Deployment
@@ -308,14 +366,14 @@ CLERK_SECRET_KEY=sk_test_...
    - Check firewall/network settings
 
 3. **Authentication not working:**
-   - Verify Clerk secret key is correct
+   - Verify Clerk JWT key is correct (should start with `sk_test_`)
    - Check JWT token is being sent in requests
    - Ensure Clerk application settings match your domain
 
-4. **Prisma errors:**
-   - Run `npx prisma generate` after schema changes
-   - Use `npx prisma db push` for development
-   - Use `npx prisma migrate dev` for production-ready migrations
+4. **Project creation failing:**
+   - Check backend server is running on port 3001
+   - Verify authentication token is valid
+   - Check database connection and schema
 
 ### Development Tips
 
@@ -329,35 +387,39 @@ CLERK_SECRET_KEY=sk_test_...
 
 To enhance this application further:
 
-1. **Advanced Features:**
-   - Todo categories and tags
-   - Due dates and reminders
-   - Collaborative todos with sharing
-   - File attachments
-   - Rich text editing
+1. **Advanced Project Features:**
+   - Project templates and categories
+   - Project collaboration and sharing
+   - Project deadlines and reminders
+   - Project archiving
 
-2. **Performance Optimizations:**
+2. **Enhanced Todo Management:**
+   - Todo priorities and labels
+   - Due dates and reminders
+   - Subtasks and dependencies
+   - File attachments
+
+3. **Analytics & Reporting:**
+   - Productivity analytics
+   - Time tracking
+   - Progress reports
+   - Export capabilities
+
+4. **Performance & Scale:**
    - Redis caching for frequent queries
    - Database connection pooling
    - CDN for static assets
-   - Lazy loading for large todo lists
+   - Real-time updates with WebSockets
 
-3. **DevOps & Monitoring:**
-   - CI/CD pipeline setup
-   - Error tracking (Sentry)
-   - Performance monitoring
-   - Automated database backups
-
-4. **Mobile App:**
-   - React Native version
+5. **Mobile Experience:**
+   - React Native mobile app
    - Offline synchronization
    - Push notifications
+   - Progressive Web App (PWA)
 
 ## 📄 License
 
 MIT License - feel free to use this project as a starting point for your own applications!
-
----
 
 ## 🆘 Support
 
@@ -368,4 +430,6 @@ If you run into issues:
 3. Check [Prisma documentation](https://www.prisma.io/docs)
 4. Open an issue in this repository
 
-Built with ❤️ using modern web technologies. # simplereactexpressapp
+---
+
+Built with ❤️ using modern web technologies. Perfect for learning full-stack development, project management, and secure authentication patterns.

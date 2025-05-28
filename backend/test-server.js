@@ -1,0 +1,1 @@
+console.log('Testing if Node can write files'); const express = require('express'); console.log('Express loaded'); const app = express(); app.listen(3001, () => console.log('Server running on port 3001'));
